@@ -1,4 +1,4 @@
-with open("Menu.txt", "r") as f:
+with open("Menu.txt", "r",encoding="utf-8") as f:
     menu = f.read()
     print(menu)
 
