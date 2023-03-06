@@ -3,10 +3,6 @@ import pandas as pd
 import time
 import csv
 
-with open("Menu.txt", "r",encoding = 'utf-8') as f:
-    menu = f.read()
-    print(menu)
-
 # Create superclass
 class Pizza:
     def __init__(self,description,cost):
