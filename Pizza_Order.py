@@ -70,6 +70,40 @@ class Corn(Decorator):
     def __init__(self, component):
         Decorator.__init__(self,component,15,"Corn")
 
-
+def main():
+    with open("Menu.txt", "r",encoding = 'utf-8') as f:
+        menu = f.read()
+        print(menu)
+   
+    order = int(input("Can i have your order?: "))
+    if order == 1:
+        choice = ClassicPizza()
+    elif order == 2:
+        choice = MargeritaPizza()
+    elif order == 3:
+        choice = TurkPizza()
+    elif order == 4:
+        choice = PlainPizza()
+    else:
+        print("Such an option does not exist.")
+    
+    bill = 0
+    orderSauce = int(input("What would you like for sauce?: "))
+    if orderSauce == 11:
+        bill += Olives(choice).get_cost()
+    elif orderSauce == 12:
+        bill += Mushrooms(choice).get_cost()
+    elif orderSauce == 13:
+        bill += GoatCheese(choice).get_cost()
+    elif orderSauce == 14:
+        bill += Meat(choice).get_cost()
+    elif orderSauce == 15:
+        bill += Onions(choice).get_cost()
+    elif orderSauce == 16:
+        bill += Corn(choice).get_cost()
+    else:
+        print("Such an option does not exist.")
+    print(bill,"TL")
+main()
 
 
