@@ -1,7 +1,8 @@
 # Required Libraries
-import pandas as pd
-import time
+import datetime
 import csv
+
+
 
 # Create superclass
 class Pizza:
@@ -12,7 +13,7 @@ class Pizza:
         return self.cost
     def get_description(self):
         return self.description
-
+    
 class ClassicPizza(Pizza):
     def __init__(self):
         super().__init__("Tomato,mozzarella,green basil,mushrooms",100)
@@ -28,6 +29,7 @@ class TurkPizza(Pizza):
 class PlainPizza(Pizza):
     def __init__(self):
         super().__init__("Sausage,peppers,olives,mozzarella,onions,corn,garlic powder",160)
+    
     
 
 
@@ -66,6 +68,7 @@ class Corn(Decorator):
     def __init__(self, component):
         Decorator.__init__(self,component,15,"Corn")
 
+
 def main():
     with open("Menu.txt", "r",encoding = 'utf-8') as f:
         menu = f.read()
@@ -82,24 +85,57 @@ def main():
         choice = PlainPizza()
     else:
         print("Such an option does not exist.")
-    
+
     bill = 0
     orderSauce = int(input("What would you like for sauce?: "))
     if orderSauce == 11:
+        description = Olives(choice).get_description()
         bill += Olives(choice).get_cost()
     elif orderSauce == 12:
+        description = Mushrooms(choice).get_description()
         bill += Mushrooms(choice).get_cost()
     elif orderSauce == 13:
+        description = GoatCheese(choice).get_description()
         bill += GoatCheese(choice).get_cost()
     elif orderSauce == 14:
+        description = Meat(choice).get_description()
         bill += Meat(choice).get_cost()
     elif orderSauce == 15:
+        description = Onions(choice).get_description()
         bill += Onions(choice).get_cost()
     elif orderSauce == 16:
+        description = Corn(choice).get_description()
         bill += Corn(choice).get_cost()
     else:
         print("Such an option does not exist.")
-    print(bill,"TL")
+    print(bill,"TL",description)
+   
+    time = datetime.datetime.now()
+    date = datetime.datetime.strftime(time, '%c')
+    print(date)
+    
+    name = input("Please enter your name: ")
+    idNo = input("Please enter your ID number.: ")
+    cift_sayilar = ["0","2","4","6","8"]
+    while len(idNo) != 11 or idNo[-1] not in cift_sayilar:
+        idNo = input("Please enter a valid ID: ")
+
+    cardNo=input("Please enter your credit card number: ")
+    while len(cardNo) != 16:
+        cardNo = input("Please enter a valid credit card number: ")
+
+    cardPassword = input("Please enter your credit card password: ")
+    while len(cardPassword) != 4:
+        cardNo = input("Please enter a valid credit card password: ")
+    print("\n************  Order Information ***********\n")
+    data = [{'Name':name,'ID':idNo,'CardNo':cardNo,'CardPassword':cardPassword,'Order':description,'Date':date}]
+    with open("Orders_Database.csv", "w") as file:
+        writer = csv.DictWriter(file, fieldnames=['Name','ID','CardNo','CardPassword','Order','Date'])
+        writer.writeheader()
+        writer.writerows(data)
+    with open("Orders_Database.csv", "r") as f:
+        menu = f.read()
+        print(menu)
 main()
 
 
