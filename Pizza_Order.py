@@ -35,6 +35,7 @@ class PlainPizza(Pizza):
 
 class Decorator(Pizza):
     def __init__(self, component,cost,description):
+
         self.component = component
         self.cost = cost
         self.description = description
@@ -70,11 +71,14 @@ class Corn(Decorator):
 
 
 def main():
+
     with open("Menu.txt", "r",encoding = 'utf-8') as f:
         menu = f.read()
         print(menu)
    
     order = int(input("Can i have your order?: "))
+    while order not in [1,2,3,4]:
+        order = int(input("Such an option does not exist. Please give an exist Pizza option (1,2,3,4): ")) 
     if order == 1:
         choice = ClassicPizza()
     elif order == 2:
@@ -88,6 +92,8 @@ def main():
 
     bill = 0
     orderSauce = int(input("What would you like for sauce?: "))
+    while orderSauce not in [11,12,13,14,15,16]:
+        orderSauce = int(input("Such an option does not exist. Please give an exist Pizza option (11,12,13,14,15,16): ")) 
     if orderSauce == 11:
         description = Olives(choice).get_description()
         bill += Olives(choice).get_cost()
@@ -108,11 +114,11 @@ def main():
         bill += Corn(choice).get_cost()
     else:
         print("Such an option does not exist.")
-    print(bill,"TL",description)
+    print("Your Order: ",bill,"TL",description)
    
     time = datetime.datetime.now()
     date = datetime.datetime.strftime(time, '%c')
-    print(date)
+    
     
     name = input("Please enter your name: ")
     idNo = input("Please enter your ID number.: ")
@@ -129,13 +135,12 @@ def main():
         cardNo = input("Please enter a valid credit card password: ")
     print("\n************  Order Information ***********\n")
     data = [{'Name':name,'ID':idNo,'CardNo':cardNo,'CardPassword':cardPassword,'Order':description,'Date':date}]
-    with open("Orders_Database.csv", "w") as file:
+    with open("Orders_Database.csv", "a") as file:
         writer = csv.DictWriter(file, fieldnames=['Name','ID','CardNo','CardPassword','Order','Date'])
-        writer.writeheader()
         writer.writerows(data)
+        file.close()
     with open("Orders_Database.csv", "r") as f:
         menu = f.read()
         print(menu)
+        f.close()
 main()
-
-
