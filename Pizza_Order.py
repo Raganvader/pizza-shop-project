@@ -4,7 +4,7 @@ import csv
 
 
 
-# Create superclass
+# Create superclass 
 class Pizza:
     def __init__(self,description,cost):
         self.description =description
@@ -13,7 +13,8 @@ class Pizza:
         return self.cost
     def get_description(self):
         return self.description
-    
+
+# Create subclasses for types of pizza
 class ClassicPizza(Pizza):
     def __init__(self):
         super().__init__("Tomato,mozzarella,green basil,mushrooms",100)
@@ -32,7 +33,7 @@ class PlainPizza(Pizza):
     
     
 
-
+# Create superclass for pizza sauces
 class Decorator(Pizza):
     def __init__(self, component,cost,description):
 
@@ -44,7 +45,7 @@ class Decorator(Pizza):
     def get_cost(self):
         return self.component.get_cost() + Pizza.get_cost(self)
     
-
+# pizza sauces
 class Olives(Decorator):
     def __init__(self, component):
         Decorator.__init__(self,component,10,"Olives")
@@ -71,11 +72,11 @@ class Corn(Decorator):
 
 
 def main():
-
+# Printing a menu to the screen
     with open("Menu.txt", "r",encoding = 'utf-8') as f:
         menu = f.read()
         print(menu)
-   
+# Get pizza selection from user  
     order = int(input("Can i have your order?: "))
     while order not in [1,2,3,4]:
         order = int(input("Such an option does not exist. Please give an exist Pizza option (1,2,3,4): ")) 
@@ -89,7 +90,7 @@ def main():
         choice = PlainPizza()
     else:
         print("Such an option does not exist.")
-
+# Get pizza sauce selection from user  
     bill = 0
     orderSauce = int(input("What would you like for sauce?: "))
     while orderSauce not in [11,12,13,14,15,16]:
@@ -119,7 +120,8 @@ def main():
     time = datetime.datetime.now()
     date = datetime.datetime.strftime(time, '%c')
     
-    
+# Get personal information from user
+
     name = input("Please enter your name: ")
     idNo = input("Please enter your ID number.: ")
     cift_sayilar = ["0","2","4","6","8"]
@@ -135,7 +137,8 @@ def main():
         cardNo = input("Please enter a valid credit card password: ")
     print("\n************  Order Information ***********\n")
     data = [{'Name':name,'ID':idNo,'CardNo':cardNo,'CardPassword':cardPassword,'Order':description,'Date':date}]
-    with open("Orders_Database.csv", "a") as file:
+    # Writing order information to the screen and transferring the information to the database
+    with open("Orders_Database.csv", "a") as file:  
         writer = csv.DictWriter(file, fieldnames=['Name','ID','CardNo','CardPassword','Order','Date'])
         writer.writerows(data)
         file.close()
